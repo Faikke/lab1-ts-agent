@@ -24,6 +24,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Run CI scripts
-        run: ${{ runner.os == 'Windows' && 'ci.bat' || 'bash ./ci.sh' }}
-        shell: ${{ runner.os == 'Windows' && 'cmd' || 'bash' }}
+      - name: Run CI script on Unix
+        if: runner.os != 'Windows'
+        run: ./ci.sh
+        shell: bash
+      - name: Run CI script on Windows
+        if: runner.os == 'Windows'
+        run: ci.bat
+        shell: cmd
